@@ -18,7 +18,7 @@ const scrw = 80;
      dlstart = 150;
      tunstart = 8;
 
-{$I ANSICOLOR.INC}
+{$I ANSICOLR.INC}
 
 {$I CPM.INC}
 
