@@ -10,8 +10,6 @@ var tunel: array[1..82,0..1] of byte;
     live: boolean;
     terminal: byte;
 
-type cstr = string[20];
-
 const scrw = 80;
      scrh = 24;
      key_space = #32;
