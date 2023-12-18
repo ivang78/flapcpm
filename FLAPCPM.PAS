@@ -1,5 +1,7 @@
 program flapcpm;
 
+{uses crt;}
+
 var tunel: array[1..82,0..1] of byte;
     tunpos, birdxpos, birdypos, birdnypos, tunheight: byte;
     curkey: byte;
@@ -16,70 +18,15 @@ const scrw = 80;
      dlstart = 150;
      tunstart = 8;
 
-{ ANSI screen attributes }
-  _CLS = #27'[2J';
-  _ATR = #27'[0m';
-  _COFF = #27'[?25l';
-  _CON = #27'[?25h';
-  _BLACK = #27'[30m';
-  _RED = #27'[31m';
-  _GREEN = #27'[32m';
-  _YELLOW = #27'[33m';
-  _BLUE = #27'[34m';
-  _MAGENTA = #27'[35m';
-  _CYAN = #27'[36m';
-  _WHITE = #27'[37m';
-  _CR = #13;
-  _LF= #10;
+{$I ANSICOLOR.INC}
 
-Procedure ClearScreen;
-begin
-    clrscr;
-end;
-
-Procedure SetTextColor(c: cstr);
-begin
-    if terminal = 1 then
-        begin
-            write(c);
-        end;
-end;
-
-{ emulate missing CRT functions }
-function ReadKey : Char;
-begin
-    ReadKey := Chr(Bios(2)); {ConIn}
-end;
-
-{ ANSI CursorOff }
-procedure CursorOff;
-begin
-  { \e[?25l }
-  Write(#27); { \e }
-  Write(#91); { [  }
-  Write(#63); { ?  }
-  Write(#50); { 2  }
-  Write(#53); { 5  }
-  Write(#108); { l }
-end;
-
-{ ANSI CursorOn }
-procedure CursorOn;
-begin
-  { \e[?25h }
-  Write(#27); { \e }
-  Write(#91); { [  }
-  Write(#63); { ?  }
-  Write(#50); { 2  }
-  Write(#53); { 5  }
-  Write(#104); { h }
-end;
+{$I CPM.INC}
 
 { ----------------------------------------------------------- }
 Procedure Hello;
     var tc: char;
 begin
-    ClearScreen;
+    ClrScr;
     repeat
         SetTextColor(_WHITE);
         gotoxy(32, 10); write('                ');
@@ -226,7 +173,7 @@ Procedure Game;
     bdy: byte;
 begin
     repeat
-        ClearScreen;
+        ClrScr;
         live := true;
         GenerateTunel(tunheight, level);
         repeat
@@ -253,7 +200,7 @@ begin
                            if (key='q') or (key='Q') then
                               begin
                                   CursorOn;
-                                  ClearScreen;
+                                  ClrScr;
                                   SetTextColor(_WHITE);
                                   exit;
                               end;
@@ -282,7 +229,7 @@ begin
                    end;
             end;
     until (level > 100);
-    ClearScreen;
+    ClrScr;
 end;
 
 begin
@@ -293,7 +240,6 @@ begin
     level := 1;
     Game;
     CursorOn;
-    ClearScreen;
+    ClrScr;
     SetTextColor(_WHITE);
 end.
-
